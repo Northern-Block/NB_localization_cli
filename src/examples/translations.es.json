@@ -1,0 +1,25 @@
+{
+  "common": {
+    "actions": {
+      "_comment1_": "// SAME - Will be the same in 'en'",
+      "next": "Next",
+      "_comment2_": "// EXTRA - Will not be present in 'en'",
+      "previous": "Previo"
+    },
+    "confirmations": {
+      "_comment1_": "// SAME - Will *intentionally* be the same in 'en'",
+      "no": "No",
+      "_comment2_ok": "// MISSING - Will be present in 'en' (single key)",
+      "yes": "Sí"
+    }
+  },
+  "_comment_meta": "// MISSING - Will be present in 'en' (top-level)",
+  "screens": {
+    "home": {
+      "title": "Casa",
+      "_comment_": "// EMPTY - Will be filled in 'en'",
+      "content": ""
+    },
+    "_comment_settings": "// MISSING - Will be present in 'en' (nested section)"
+  }
+}

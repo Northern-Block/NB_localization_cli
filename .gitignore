@@ -1,0 +1,20 @@
+# Build files
+lib
+
+# Testing
+coverage
+
+# Input files
+input/*
+!input/.gitkeep
+
+# Output files
+output/*
+!output/.gitkeep
+
+# Dependencies
+node_modules/
+
+# OS
+.DS_Store
+*:Zone.Identifier

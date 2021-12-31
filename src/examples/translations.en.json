@@ -1,0 +1,31 @@
+{
+  "common": {
+    "actions": {
+      "_comment_": "// SAME - Will be the same in 'es'",
+      "next": "Next"
+    },
+    "confirmations": {
+      "_comment1_": "// SAME - Will *intentionally* be the same in 'es'",
+      "no": "No",
+      "_comment2_": "// MISSING - Will be missing in 'es' (single key)",
+      "ok": "OK",
+      "yes": "Yes"
+    }
+  },
+  "_comment_": "// MISSING - Will be missing in 'es' (top-level)",
+  "meta": {
+    "appName": "My App"
+  },
+  "screens": {
+    "home": {
+      "title": "Home",
+      "_comment_": "// EMPTY - Will be empty in 'es'",
+      "content": "This is some sample content"
+    },
+    "_comment_": "// MISSING - Will be missing in 'es' (nested section)",
+    "settings": {
+      "title": "Settings",
+      "logOutButton": "Log Out"
+    }
+  }
+}

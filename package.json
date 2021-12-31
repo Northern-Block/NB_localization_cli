@@ -1,0 +1,57 @@
+{
+  "name": "localization-cli",
+  "version": "0.1.0",
+  "description": "Developer CLI for validation i18next localization files",
+  "author": "Kendall Roth <kendall@kendallroth.ca>",
+  "main": "./lib/index.js",
+  "bin": {
+    "localize": "./lib/index.js"
+  },
+  "scripts": {
+    "build": "npm run build:types && npm run build:js",
+    "build:js": "babel src --out-dir lib --extensions '.ts' --source-maps inline",
+    "build:types": "tsc --emitDeclarationOnly",
+    "format": "prettier --write src/**/*.{js,json,ts}",
+    "format:check": "npm run format -- --check --write=false",
+    "local:install": "npm run build && chmod u+x ./lib/index.js && npm link",
+    "local:run": "ts-node --project tsconfig.json -r tsconfig-paths/register src/index.ts",
+    "lint": "eslint src/**/*.{js,json,ts}",
+    "prepare": "husky install",
+    "type": "tsc --noEmit",
+    "test": "jest"
+  },
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "yargs": "^17.3.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.16.0",
+    "@babel/core": "^7.16.0",
+    "@babel/plugin-proposal-class-properties": "^7.16.0",
+    "@babel/plugin-transform-runtime": "^7.16.4",
+    "@babel/preset-env": "^7.16.4",
+    "@babel/preset-typescript": "^7.16.0",
+    "@babel/runtime": "^7.16.3",
+    "@types/jest": "^27.0.3",
+    "@types/yargs": "^17.0.7",
+    "@typescript-eslint/eslint-plugin": "^5.6.0",
+    "@typescript-eslint/parser": "^5.6.0",
+    "babel-plugin-module-resolver": "^4.1.0",
+    "eslint": "^8.4.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "husky": "^7.0.4",
+    "jest": "^27.4.5",
+    "lint-staged": "^12.1.2",
+    "prettier": "^2.5.1",
+    "ts-node": "^10.4.0",
+    "tsconfig-paths": "^3.12.0",
+    "typescript": "^4.5.2"
+  },
+  "lint-staged": {
+    "*.{js,ts}": [
+      "eslint --cache --fix",
+      "prettier --write"
+    ]
+  }
+}
