@@ -17,6 +17,11 @@ localize -h
 npm run local:run -- -h
 ```
 
+## Caveats
+
+- ES6 modules are not supported for comparison!
+  - Due to Node restrictions, ES6 modules are not supported for comparison (will result in "unexpected token" errors). Instead, please use `module.exports` as a workaround until a permanent solution can be found.
+
 ## Commands
 
 ```
