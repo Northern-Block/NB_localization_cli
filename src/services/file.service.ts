@@ -48,8 +48,10 @@ class FileService {
         throw new Error("File is invalidly formatted");
       }
     } else if (extension === "js" || extension === "ts") {
+      const currentDir = process.cwd();
+      const absolutePath = `${currentDir}/${filePath}`;
       // eslint-disable-next-line @typescript-eslint/no-var-requires
-      const fileData = require(`../../${filePath}`);
+      const fileData = require(absolutePath);
       return fileData;
     } else {
       throw new Error("File type is invalid");
