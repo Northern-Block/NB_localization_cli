@@ -278,6 +278,11 @@ const createComparisonDisplay = (
  * @param comparisons - Comparison display results
  */
 const printComparison = (comparisons: ComparisonDisplay[]): void => {
+  if (!comparisons.length) {
+    print(chalk.green("Comparison file has no issues"));
+    return;
+  }
+
   const longestResultKey = comparisons.reduce((accum, result) => {
     const indentLevel = result.parents?.length ?? 0;
 
