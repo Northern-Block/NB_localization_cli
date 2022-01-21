@@ -8,13 +8,20 @@ import { compareObjects, isObject } from "@utilities/object.util";
 
 // Types
 import { JSONObject } from "@typings/app.types";
-import { Comparison, ComparisonDescriptionMap } from "@typings/compare.types";
+import {
+  Comparison,
+  ComparisonDescriptionMap,
+  ComparisonDisplay,
+  ComparisonOutput,
+  ComparisonOutputConfig,
+  ComparisonOutputMap,
+} from "@typings/compare.types";
 
 ////////////////////////////////////////////////////////////////////////////////
 // Types
 ////////////////////////////////////////////////////////////////////////////////
 
-interface ITranslationArgs extends Arguments {
+interface ICompareArgs extends Arguments {
   /** Base translation file for comparison */
   base: string;
   /** Target translation file being compared */
@@ -25,44 +32,11 @@ interface ITranslationArgs extends Arguments {
   "ignore-same": boolean;
 }
 
-interface ComparisonDisplay {
-  /** Comparison key */
-  key: string;
-  /** Comparison issues (warnings/errors) */
-  issues?: number;
-  /** Comparison parents */
-  parents?: string[];
-  /** Comparison result */
-  result: Comparison;
-  /** Comparison type */
-  type: "section" | "value";
-}
-
-interface ComparisonOutput {
-  /** Comparison children */
-  children?: ComparisonOutputMap;
-  /** Number of errors/warnings in children */
-  issues?: number;
-  /** Parent keys */
-  parents?: string[];
-  /** Comparison result */
-  result: Comparison;
-}
-
-interface ComparisonOutputConfig {
-  /** Whether missing values should be ignored (useful for partial override files) */
-  ignoreMissing: boolean;
-  /** Whether same values should be ignored (can indicate missed translation) */
-  ignoreSame: boolean;
-}
-
-type ComparisonOutputMap = Record<string, ComparisonOutput>;
-
 ////////////////////////////////////////////////////////////////////////////////
 // Command
 ////////////////////////////////////////////////////////////////////////////////
 
-const TranslationCompareCommand: CommandModule = {
+const CompareCommand: CommandModule = {
   command: "compare",
   describe: "Compare a translation file against a base file",
   builder: {
@@ -90,7 +64,7 @@ const TranslationCompareCommand: CommandModule = {
     },
   },
   handler: async (argv: Arguments): Promise<void> => {
-    const args = argv as ITranslationArgs;
+    const args = argv as ICompareArgs;
 
     const { base, compare } = args;
 
@@ -334,4 +308,4 @@ const printComparison = (comparisons: ComparisonDisplay[]): void => {
   });
 };
 
-export default TranslationCompareCommand;
+export default CompareCommand;

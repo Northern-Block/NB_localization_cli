@@ -16,6 +16,19 @@ export enum Comparison {
   UNHANDLED = "UNHANDLED",
 }
 
+export interface ComparisonDisplay {
+  /** Comparison key */
+  key: string;
+  /** Comparison issues (warnings/errors) */
+  issues?: number;
+  /** Comparison parents */
+  parents?: string[];
+  /** Comparison result */
+  result: Comparison;
+  /** Comparison type */
+  type: "section" | "value";
+}
+
 export interface ComparisonConfig {
   /** Comparison description */
   description: string;
@@ -56,6 +69,26 @@ export const ComparisonDescriptionMap: Record<
     type: "warning",
   },
 };
+
+export interface ComparisonOutput {
+  /** Comparison children */
+  children?: ComparisonOutputMap;
+  /** Number of errors/warnings in children */
+  issues?: number;
+  /** Parent keys */
+  parents?: string[];
+  /** Comparison result */
+  result: Comparison;
+}
+
+export interface ComparisonOutputConfig {
+  /** Whether missing values should be ignored (useful for partial override files) */
+  ignoreMissing: boolean;
+  /** Whether same values should be ignored (can indicate missed translation) */
+  ignoreSame: boolean;
+}
+
+export type ComparisonOutputMap = Record<string, ComparisonOutput>;
 
 export type CompareOutputCallback = (
   baseObject: any,
