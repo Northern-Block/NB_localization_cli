@@ -1,6 +1,6 @@
 # `localize` CLI
 
-CLI interface for comparing/validating `i18n` localization files.
+CLI interface for comparing/validating and generating `i18n` localization files.
 
 ## Usage
 
