@@ -74,36 +74,6 @@ const compareObjects = (
 const isObject = (value: any): boolean =>
   Boolean(value) && typeof value === "object";
 
-const setDeep1 = (
-  obj: Record<string, any>,
-  path: string[],
-  value: any,
-  recursive = true,
-): void => {
-  path.reduce((accum, key, level) => {
-    if (!accum) return accum;
-    /*if (recursive && typeof a[b] === "undefined" && level !== path.length - 1) {
-      a[b] = {};
-      return a[b];
-    }*/
-    console.log(accum, key, level);
-    if (typeof accum[key] === "undefined" && level !== path.length - 1) {
-      if (recursive) {
-        accum[key] = {};
-        return accum[key];
-      } else {
-        return accum[key];
-      }
-    }
-
-    if (level === path.length - 1) {
-      accum[key] = value;
-      return value;
-    }
-    return accum[key];
-  }, obj);
-};
-
 /**
  * Dynamically sets a deeply nested value in an object (returns new object)
  *
