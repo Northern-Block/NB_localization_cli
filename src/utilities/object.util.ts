@@ -74,16 +74,62 @@ const compareObjects = (
 const isObject = (value: any): boolean =>
   Boolean(value) && typeof value === "object";
 
-/**
- * Join parents (and key) together for display
- *
- * @param   parents - Parent keys
- * @param   key     - Current key
- * @returns Joined parent keys
- */
-const joinParents = (parents: string[], key?: string): string => {
-  const finalList = key ? [...parents, key] : parents;
-  return finalList.join(" -> ");
+const setDeep1 = (
+  obj: Record<string, any>,
+  path: string[],
+  value: any,
+  recursive = true,
+): void => {
+  path.reduce((accum, key, level) => {
+    if (!accum) return accum;
+    /*if (recursive && typeof a[b] === "undefined" && level !== path.length - 1) {
+      a[b] = {};
+      return a[b];
+    }*/
+    console.log(accum, key, level);
+    if (typeof accum[key] === "undefined" && level !== path.length - 1) {
+      if (recursive) {
+        accum[key] = {};
+        return accum[key];
+      } else {
+        return accum[key];
+      }
+    }
+
+    if (level === path.length - 1) {
+      accum[key] = value;
+      return value;
+    }
+    return accum[key];
+  }, obj);
 };
 
-export { compareObjects, isObject, joinParents };
+/**
+ * Dynamically sets a deeply nested value in an object (returns new object)
+ *
+ * NOTE: By default it will create any missing nested keys!
+ *
+ * @param   obj       - Object which contains the value to set
+ * @param   path      - Path to nested key being set
+ * @param   value     - Target value to set
+ * @param   recursive - Whether to create non-existing paths
+ * @returns Updated nested object
+ */
+const setDeep = (
+  obj: Record<string, any> = {},
+  [first, ...rest]: string[],
+  value: any,
+  recursive = true,
+): Record<string, any> => {
+  // Optional prevent creating recursive keys if path is invalid/missing
+  if (!recursive && typeof obj[first] === "undefined") return obj;
+  // Arrays are currently not supported (will ignore)
+  if (Array.isArray(obj[first])) return obj;
+
+  return {
+    ...obj,
+    [first]: rest.length ? setDeep(obj[first], rest, value, recursive) : value,
+  };
+};
+
+export { compareObjects, isObject, setDeep };

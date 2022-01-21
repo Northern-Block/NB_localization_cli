@@ -4,6 +4,7 @@ import yargs from "yargs";
 
 // Utilities
 import CompareCommand from "./commands/compare";
+import GenerateCommand from "./commands/generate";
 
 // Utilities
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -17,6 +18,7 @@ yargs
   .alias("v", "version")
   .strict(true)
   .command(CompareCommand)
+  .command(GenerateCommand)
   .demandCommand(1, "No default behaviour")
   .wrap(Math.min(100, yargs.terminalWidth()))
   .help().argv;

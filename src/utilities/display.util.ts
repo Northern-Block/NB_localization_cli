@@ -24,6 +24,18 @@ const addSpaces = (spaces: number): string => {
 };
 
 /**
+ * Join parents (and key) together for display
+ *
+ * @param   parents - Parent keys
+ * @param   key     - Current key
+ * @returns Joined parent keys
+ */
+const joinParents = (parents: string[], key?: string): string => {
+  const finalList = key ? [...parents, key] : parents;
+  return finalList.join(" -> ");
+};
+
+/**
  * Add dots to indicate association
  *
  * @param   amount - Number of dots
@@ -43,4 +55,4 @@ const print = (message: string): void => {
   console.log(message);
 };
 
-export { addCharacter, addSpaces, makeDots, print };
+export { addCharacter, addSpaces, joinParents, makeDots, print };

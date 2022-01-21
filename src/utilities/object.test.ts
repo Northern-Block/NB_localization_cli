@@ -1,5 +1,5 @@
 // Utilities
-import { compareObjects, isObject, joinParents } from "./object.util";
+import { compareObjects, isObject, setDeep } from "./object.util";
 
 describe("'compareObjects'", () => {
   const createOutputShared = (
@@ -117,23 +117,42 @@ describe("'isObject'", () => {
   });
 });
 
-describe("'joinParents'", () => {
-  it("joins parents together", () => {
-    const parents = ["top", "middle", "bottom"];
+describe("'setDeep'", () => {
+  it("can set with valid nested path", () => {
+    const input = { level1: { level2: { target: 1 } } };
 
-    const output = joinParents(parents);
+    const output = setDeep(input, ["level1", "level2", "target"], 2);
 
-    const expected = "top -> middle -> bottom";
-    expect(output).toBe(expected);
+    const expected = { level1: { level2: { target: 2 } } };
+    expect(output).toStrictEqual(expected);
   });
 
-  it("joins parents together with child key", () => {
-    const parents = ["top", "middle", "bottom"];
-    const key = "inner";
+  it("can set with missing nested path", () => {
+    const input = { level1: { level2: { target: 1 } } };
 
-    const output = joinParents(parents, key);
+    const output = setDeep(input, ["level1", "invalid", "target"], 2);
 
-    const expected = "top -> middle -> bottom -> inner";
-    expect(output).toBe(expected);
+    const expected = {
+      level1: { invalid: { target: 2 }, level2: { target: 1 } },
+    };
+    expect(output).toStrictEqual(expected);
+  });
+
+  it("can ignore setting with missing nested path", () => {
+    const input = { level1: { level2: { target: 1 } } };
+
+    const output = setDeep(input, ["level1", "invalid", "target"], 2, false);
+
+    const expected = { level1: { level2: { target: 1 } } };
+    expect(output).toStrictEqual(expected);
+  });
+
+  it("can set with mismatching nested type", () => {
+    const input = { level1: { level2: 1 } };
+
+    const output = setDeep(input, ["level1", "level2", "target"], 2, true);
+
+    const expected = { level1: { level2: { target: 2 } } };
+    expect(output).toStrictEqual(expected);
   });
 });
