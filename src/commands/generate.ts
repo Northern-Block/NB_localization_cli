@@ -20,6 +20,14 @@ import {
 
 interface IGenerateArgs extends Arguments {
   /**
+   * Whether newline characters in values should be escaped.
+   *
+   * By default, ExcelJS will escape newline characters in translation values,
+   *   which will be passed on to the output JSON, resulting in '\\n' characters.
+   *   This can be disabled to pass the '\n' newline character directly to JSON.
+   */
+  "escape-newlines": boolean;
+  /**
    * Column headers row number
    *
    * NOTE: Dangerous to change (will ignore all previous rows)!
@@ -47,6 +55,12 @@ const GenerateCommand: CommandModule = {
   command: "generate",
   describe: "Generate a translation file from an input spreadsheet",
   builder: {
+    "escape-newlines": {
+      default: false,
+      description:
+        "Whether newline characters should be automatically escaped ('\\\\n')",
+      type: "boolean",
+    },
     "header-row": {
       default: 1,
       description: "Row number for column headers",
@@ -77,6 +91,7 @@ const GenerateCommand: CommandModule = {
     const args = argv as IGenerateArgs;
 
     const {
+      "escape-newlines": escapeNewlines,
       "header-row": headerRow,
       input,
       output: outputFile,
@@ -121,12 +136,17 @@ const GenerateCommand: CommandModule = {
       // First worksheet row represents column headers
       if (rowNumber <= headerRow) return;
 
-      const rowPathCells: IPathCell[] = paths.map((p, pIdx) => ({
-        column: p.column,
-        level: pIdx,
-        name: p.name,
-        value: row.getCell(p.column).text,
-      }));
+      const rowPathCells: IPathCell[] = paths.map((p, pIdx) => {
+        const value = row.getCell(p.column).text;
+        return {
+          column: p.column,
+          level: pIdx,
+          name: p.name,
+          // ExcelJS automatically escapes '\n' characters, which will result
+          //   in generating JSON with '\\n' characters (likely not desired)!
+          value: escapeNewlines ? value : value.replace(/\\n/g, "\n"),
+        };
+      });
 
       rows.push(rowPathCells);
     });
