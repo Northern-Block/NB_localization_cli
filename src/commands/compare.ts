@@ -297,8 +297,12 @@ const printComparison = (comparisons: ComparisonDisplay[]): void => {
         comparisonResult.type === "warning"
           ? chalk.yellow(resultString)
           : chalk.red(resultString);
-      line += ` ${colouredResult} ${makeDots(resultPadding)} `;
+      line += ` ${colouredResult}`;
+      if (c.issues) {
+        line += ` ${makeDots(resultPadding)} `;
+      }
     } else {
+      // NOTE: Should always have a result!
       line += `${makeDots(longestComparisonKey + 2)} `;
     }
 
